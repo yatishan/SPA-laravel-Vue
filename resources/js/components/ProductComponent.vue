@@ -20,17 +20,16 @@
             <div class="card">
                 <h4 class="card-header">Create</h4>
                 <div class="card-body">
-                    <form action="">
+                    <form @submit.prevent="store">
                         <div class="form-group mb-2">
                             <label for="">Name: </label>
-                            <input type="text" class="form-control mt-2">
+                            <input v-model="product.name" type="text" class="form-control mt-2">
                         </div>
                         <div class="form-group mb-2">
                             <label for="">Price: </label>
-                            <input type="number" class="form-control mt-2">
+                            <input v-model="product.price" type="number" class="form-control mt-2">
                         </div>
-                        <button class="btn btn-primary">
-                            <i class="fa-solid fa-floppy-disk"></i>
+                        <button class="btn btn-primary" type="submit">
                             Save
                         </button>
                     </form>
@@ -48,23 +47,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Book</td>
-                        <td>200</td>
-                        <td>
-                            <button class="btn btn-success btn-sm me-2">
-                                Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Cup</td>
-                        <td>100</td>
+                    <tr v-for="product in products" :key="product.id">
+                        <td>{{ product.id}}</td>
+                        <td>{{ product.name}}</td>
+                        <td>{{ product.price}}</td>
                         <td>
                             <button class="btn btn-success btn-sm me-2">
                                 Edit
@@ -82,7 +68,46 @@
 </template>
 
 <script>
-export default {
 
+export default {
+    name: "ProductComponent",
+    data() {
+        return {
+            products: [
+                {"id":1,"name":"book","price":100},
+                {"id":2,"name":"pencle","price":100},
+                {"id":3,"name":"air pod","price":100}
+            ],
+            product: {
+                "name": "",
+                "price": ""
+            }
+        }
+    },
+    methods: {
+        view() {
+            fetch('/api/product/')
+            .then(response => response.json())
+            .then(data => this.products=data)
+            .catch(error => console.error('Error:', error));
+        } ,
+        store() {
+            fetch('api/product/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.product)
+            })
+            .then(response =>{
+                 this.view();
+                 this.product={
+                    "name": "",
+                    "price": ""
+                 }
+            })
+        }
+    },
+    created() {
+        this.view();
+    }
 }
 </script>

@@ -12,7 +12,7 @@ class ProductContoller extends Controller
      */
     public function index()
     {
-        $products=Product::all();
+        $products=Product::orderBy('id', 'DESC')->get();
         return $products;
     }
 
