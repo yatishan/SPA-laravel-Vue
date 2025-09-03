@@ -18,7 +18,7 @@
     </div>
     <!-- create end -->
     <!-- show -->
-    <div class="row">
+    <div class="row ">
         <div class="col-4">
             <div class="card">
                 <h4 class="card-header">{{ isEditMode? "Edit": "Create"}}</h4>
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="col-8">
-            <table class="table">
+            <table class="table mb-5">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -65,13 +65,12 @@
                     </tr>
                 </tbody>
             </table>
+            <Pagination :data="products" @pagination-change-page="fetchPage"/>
         </div>
     </div>
     <!-- show end -->
-   <Pagination
-  :data="products"
-  @pagination-change-page="fetchPage"
-/>
+
+
 </div>
 </template>
 
