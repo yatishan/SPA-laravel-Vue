@@ -12,7 +12,7 @@ class ProductContoller extends Controller
      */
     public function index()
     {
-        $products=Product::orderBy('id', 'DESC')->get();
+        $products=Product::orderBy('id', 'DESC')->paginate(5);
         return $products;
     }
 
